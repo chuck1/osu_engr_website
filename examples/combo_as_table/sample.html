@@ -1,0 +1,45 @@
+ 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>For demo purpose only :: &1</title>
+	<script>
+		window.dhx_globalImgPath="../../codebase/imgs/";
+	</script>
+	<link rel='STYLESHEET' type='text/css' href='codebase/dhtmlxcombo.css'>
+	
+	<script src='codebase/dhtmlxcommon.js'></script>
+	<script src='codebase/dhtmlxcombo.js'></script>
+	<style type="text/css" media="screen">
+		td {
+			font-family:Tahoma;
+			font-size:10pt;
+			
+		}
+	</style>
+</head>
+  
+
+<body>
+
+	<h1>Initialization</h1>
+
+<h3>From select box</h3>
+
+<div id="combo_zone3"></div>
+<br>
+
+
+
+	<script>
+		var z = new dhtmlXCombo("combo_zone3","alfa3",200);
+		var data=[[1,111,111111],[2,222,22222],[3,333,33333]];
+		for (var i=0; i < data.length; i++) {
+			z.addOption(data[i][0],"<table cellpadding='0' cellspacing='0' width='98%'><tr><td width='50px'>"+data[i][2]+" </td><td align='right'>"+data[i][2]+"</td></tr></table>")
+		};
+	</script>
+
+
+</body>
+</html>
