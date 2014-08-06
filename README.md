@@ -1,3 +1,3 @@
 
-[](web.engr.oregonstate.edu/~rymalc)
+[](http://web.engr.oregonstate.edu/~rymalc)
 
