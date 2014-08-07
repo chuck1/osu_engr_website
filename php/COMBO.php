@@ -15,7 +15,9 @@ class COMBO {
 	}
 	public function disp() {
 		$results = $this->db->query("SELECT * FROM `{$this->table}`");
-		
+
+		$options = "";
+
 		foreach ( $results as $row ) {
 			if ( $row['id'] == $this->id ) {
 				$s = " selected";
@@ -36,7 +38,6 @@ class COMBO {
 		}
 		
 		$name = $this->name;
-		//echo $name . "</br>";
 		$ret = <<<_END
 		<select name="{$name}">
 			{$options}

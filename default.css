@@ -178,7 +178,7 @@ input[type=checkbox], input[type=radio] {
 }
 input[type=text], input[type=password], textarea, select {
 	display: inline-block;
-	width: 210px;
+	width: 610px;
 	padding: 4px;
 	font-size: 13px;
 	font-weight: normal;
