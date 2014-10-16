@@ -2,7 +2,7 @@
 
 $head = <<<_END
 <head>
-	<link rel="stylesheet" type="text/css" href="http://engr.oregonstate.edu/~rymalc/default.css";></link>
+	<link rel="stylesheet" type="text/css" href="http://engr.oregonstate.edu/~rymalc/style.css";></link>
 	<title>{$title}</title>
 	<script type="text/x-mathjax-config">
 		MathJax.Hub.Config ({

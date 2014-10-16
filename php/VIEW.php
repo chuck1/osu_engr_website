@@ -1,6 +1,6 @@
 <?php
 
-class TABLE
+class VIEW
 {
 	public $id;
 	public $db;
@@ -16,10 +16,14 @@ class TABLE
 	public $filter = FALSE;
 	public $html = '';
 
-	public function __construct($id,$db,$table,$col) {
+	public function __construct($id,$db,$source,$table,$col) {
 		$this->db = $db;
 		$this->name = $table;
-		$this->table = $this->db->nickname . "_" . $table;
+		$this->table = $table;
+
+		$this->source = $this->db->nickname . "_" . $source;
+		$this->table_sort = $this->db->nickname . "_" . $source . "_sort";
+		
 		$this->col = $col;
 
 		$results = $this->db->query("DESCRIBE {$this->table};");
@@ -67,7 +71,7 @@ class TABLE
 		{
 			$id = $this->db->get_post("delete{$this->id}");
 
-			$this->db->query_b("DELETE FROM `{$this->table}` WHERE id={$id}");
+			$this->db->query_b("DELETE FROM `{$this->source}` WHERE id={$id}");
 		}
 	}
 	public function post_update() {
@@ -128,12 +132,15 @@ class TABLE
 		}
 	}
 	public function post_sortby() {
+
 		if (isset($_POST["sortby{$this->id}"])) {
+
 			$sortby = $this->db->get_post("sortby{$this->id}");
 
-			// determine direction
+
+
 			$results = $this->db->query("
-					SELECT * FROM `{$this->table}_sort`
+					SELECT * FROM `{$this->table_sort}`
 					WHERE col='{$sortby}'
 					");
 
@@ -152,18 +159,18 @@ class TABLE
 			}
 
 			$this->db->query_b("
-					DELETE FROM `{$this->table}_sort`
+					DELETE FROM `{$this->table_sort}`
 					WHERE col='{$sortby}'
 					");
 
 			$this->db->query_b("
-					INSERT INTO `{$this->table}_sort`
+					INSERT INTO `{$this->table_sort}`
 					(`col`,`dir`)
 					VALUE
 					('{$sortby}','{$dir}')
 					");
 		}
-	}
+}
 	public function post() {
 		$this->post_delete();
 		$this->post_update();
@@ -176,7 +183,7 @@ class TABLE
 		$this->rows .= "
 			<tr>
 			{$this->cols}
-		</tr>";
+			</tr>";
 
 		$this->cols_reset();
 	}
@@ -186,7 +193,7 @@ class TABLE
 			<form action='' method='post'>
 			{$this->cols}
 		</form>
-			";
+";
 
 		if ( $this->del )
 		{
@@ -215,7 +222,7 @@ class TABLE
 			<input type='hidden' name='sortby' value='{$str}'></input>
 			</form>
 			</td>
-			";
+";
 	}
 	public function cols_add_update($id) {
 		if ( $this->up ) {
@@ -224,21 +231,21 @@ class TABLE
 				<input type='submit' value='update'></input>
 				<input type='hidden' name='update' value='{$id}'></input>
 				</td>
-				";
+";
 		}
 	}
 	public function cols_add($str) {
 		$this->cols .= "
 			<td>{$str}</td>
 
-			";
+";
 	}
 	public function cols_add_item($col,$val) {
 		if ($col=='id') {
 			$this->cols .= "
 				<td>{$val}</td>
 
-				";
+";
 		}
 		else {
 			if ( $this->is_varchar($col) ) {
@@ -247,7 +254,7 @@ class TABLE
 					<input class='long' type='text' name='{$col}' value='{$val}'></input>
 					</td>
 
-					";
+";
 			}
 			elseif ( $this->is_bool($col) ) {
 				//echo "bool with val={$val}</br>";
@@ -262,20 +269,20 @@ class TABLE
 					<input type='checkbox' {$checked} name='{$col}' value='1'></input>
 					</td>
 
-					";
+";
 			}
 			else {
 				$this->cols .= "
 					<td>{$val}</td>
 
-					";
+";
 			}
 		}
 	}
 	public function get_data() {
 
 		// sortby string
-		$results = $this->db->query("SELECT * FROM `{$this->table}_sort` ORDER BY `id` DESC");
+		$results = $this->db->query("SELECT * FROM `{$this->table_sort}` ORDER BY `id` DESC");
 
 		$sortstr = '';
 
@@ -320,15 +327,12 @@ class TABLE
 
 		if ( $this->filter ) {
 			$query = "
-				SELECT
-				`{$t0}`.`id`,
-				`{$t0}`.`title`
-				FROM `{$t0}`,`{$t1}`,`{$t2}`
+				SELECT * FROM `{$t0}`,`{$t1}`,`{$t2}`
 				WHERE `{$t0}`.`id` = `{$t2}`.`{$i0}`
 				AND   `{$t1}`.`id` = `{$t2}`.`{$i1}`
 				AND   `{$t1}`.`selected` = 1
 				GROUP BY `{$t0}`.`id`
-				";
+";
 		}
 		else {
 			$query = "SELECT * FROM v";
@@ -360,7 +364,7 @@ class TABLE
 				</form>
 				</table>
 				</p>
-				";
+";
 		}
 	}
 	public function disp() {

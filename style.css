@@ -29,15 +29,16 @@ div.left{
 	width:200px;
 	position:absolute
 }
-div.mid{
-	margin-left:400px;
+div.center
+{
+	margin-left:300px;
 	position:absolute;
 }
 input {
 	font-family:"lucida",monospace;
 }
 input.long {
-	width:600px;
+	width:1000px;
 }
 .block {
 	display: inline-block;
