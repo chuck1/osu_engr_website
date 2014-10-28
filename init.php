@@ -3,13 +3,14 @@
 ini_set('display_errors',1);
 error_reporting(~0);
 
+$root = dirname(__FILE__);
 
-require_once $root . "private/db_info.php";
+require_once  $root."/private/db_info.php";
 
-$http_root = 'http://web.engr.oregonstate.edu/~rymalc/';
+//$http_root = 'http://web.engr.oregonstate.edu/~rymalc/';
 $http_home = $http_root . $name . '/';
 
-require_once $root . "php/myphp.php";
+require_once $root."/php/myphp.php";
 
 function insert_tab($n,$html)
 {

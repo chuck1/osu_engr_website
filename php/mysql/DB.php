@@ -36,7 +36,7 @@ class DB {
 		 */
 		$this->mysqli->select_db($this->name);
 
-		$this->query_b("USE `rymalc-db`");
+		$this->query_b("USE `{$this->name}`");
 	}
 	public function get_post($var)
 	{
@@ -138,7 +138,7 @@ class DB {
 	public function create_table_sort($table_name) {
 		$table_name = $this->nickname . "_" . $table_name;
 		$query = "
-			CREATE TABLE IF NOT EXISTS `rymalc-db`.`{$table_name}_sort`
+			CREATE TABLE IF NOT EXISTS `{$this->name}`.`{$table_name}_sort`
 			(
 			 `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			 `col` VARCHAR(128) NOT NULL,
@@ -152,7 +152,7 @@ class DB {
 	public function create_table_tag($table_name) {
 		$table_name = $this->nickname . "_" . $table_name;
 		$query = "
-			CREATE TABLE IF NOT EXISTS `rymalc-db`.`{$table_name}_tag`
+			CREATE TABLE IF NOT EXISTS `{$this->name}`.`{$table_name}_tag`
 			(
 			 `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			 `name` VARCHAR(128) NOT NULL,
@@ -171,7 +171,7 @@ class DB {
 		$id1 = "{$table_name1}_id";
 
 		$query = "
-			CREATE TABLE IF NOT EXISTS `rymalc-db`.`{$table_name}`
+			CREATE TABLE IF NOT EXISTS `{$this->name}`.`{$table_name}`
 			(
 			 `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			 `{$id0}` INT NOT NULL,
