@@ -74,18 +74,15 @@ class DB {
 	{
 		return htmlentities(mysql_fix_string($mysqli,$string));
 	}
-	public function fix_string($string)
-	{
+	public function fix_string($string) {
 		if (get_magic_quotes_gpc()) $string = stripslashes($string);
 		return $this->mysqli->real_escape_string($string);
 	}
-	public function add_user($un,$pw)
-	{
+	public function add_user($un,$pw) {
 		$query = "INSERT INTO users VALUES('$un', '$pw')";
 		$result = query_b($query);
 	}
-	public function get_id_from_name($mysqli,$table,$name)
-	{
+	public function get_id_from_name($mysqli,$table,$name) {
 		$result = query("SELECT * FROM {$table} WHERE name = {$name}");
 
 		if (count($result)==1)
@@ -97,8 +94,7 @@ class DB {
 			return -1;
 		}
 	}
-	public function authenticate()
-	{
+	public function authenticate() {
 		if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
 			$un_temp = $this->entities_fix_string($_SERVER['PHP_AUTH_USER']);
 			$pw_temp = $this->entities_fix_string($_SERVER['PHP_AUTH_PW']);
