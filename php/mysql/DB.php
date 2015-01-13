@@ -36,7 +36,7 @@ class DB {
 		 */
 		$this->mysqli->select_db($this->name);
 
-		$this->query_b("USE `rymalc-db`");
+		$this->query_b("USE `{$this->name}`");
 	}
 	public function get_post($var)
 	{
@@ -74,18 +74,15 @@ class DB {
 	{
 		return htmlentities(mysql_fix_string($mysqli,$string));
 	}
-	public function fix_string($string)
-	{
+	public function fix_string($string) {
 		if (get_magic_quotes_gpc()) $string = stripslashes($string);
 		return $this->mysqli->real_escape_string($string);
 	}
-	public function add_user($un,$pw)
-	{
+	public function add_user($un,$pw) {
 		$query = "INSERT INTO users VALUES('$un', '$pw')";
 		$result = query_b($query);
 	}
-	public function get_id_from_name($mysqli,$table,$name)
-	{
+	public function get_id_from_name($mysqli,$table,$name) {
 		$result = query("SELECT * FROM {$table} WHERE name = {$name}");
 
 		if (count($result)==1)
@@ -97,8 +94,7 @@ class DB {
 			return -1;
 		}
 	}
-	public function authenticate()
-	{
+	public function authenticate() {
 		if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
 			$un_temp = $this->entities_fix_string($_SERVER['PHP_AUTH_USER']);
 			$pw_temp = $this->entities_fix_string($_SERVER['PHP_AUTH_PW']);
@@ -138,7 +134,7 @@ class DB {
 	public function create_table_sort($table_name) {
 		$table_name = $this->nickname . "_" . $table_name;
 		$query = "
-			CREATE TABLE IF NOT EXISTS `rymalc-db`.`{$table_name}_sort`
+			CREATE TABLE IF NOT EXISTS `{$this->name}`.`{$table_name}_sort`
 			(
 			 `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			 `col` VARCHAR(128) NOT NULL,
@@ -152,7 +148,7 @@ class DB {
 	public function create_table_tag($table_name) {
 		$table_name = $this->nickname . "_" . $table_name;
 		$query = "
-			CREATE TABLE IF NOT EXISTS `rymalc-db`.`{$table_name}_tag`
+			CREATE TABLE IF NOT EXISTS `{$this->name}`.`{$table_name}_tag`
 			(
 			 `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			 `name` VARCHAR(128) NOT NULL,
@@ -171,7 +167,7 @@ class DB {
 		$id1 = "{$table_name1}_id";
 
 		$query = "
-			CREATE TABLE IF NOT EXISTS `rymalc-db`.`{$table_name}`
+			CREATE TABLE IF NOT EXISTS `{$this->name}`.`{$table_name}`
 			(
 			 `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			 `{$id0}` INT NOT NULL,
